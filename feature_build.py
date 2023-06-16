@@ -1,6 +1,8 @@
 #Imports
+
 import spotipy
 import pandas as pd
+import urllib3
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import time
@@ -134,7 +136,7 @@ def build_feature_frame(playlist_df):
     i = 0 
     
     for playlist in playlists:
-        time.sleep(20)
+        time.sleep(10)
         if i==10:
             break
         try:
@@ -142,11 +144,16 @@ def build_feature_frame(playlist_df):
         except spotipy.SpotifyException:
             continue
         feature_dfs.append(features)
+        print('{i}th playlist complete')
         i+=1
     #Concatenate dataframes together before export 
     full_feature_df = pd.concat(feature_dfs,ignore_index=True)
     full_feature_df.drop_duplicates(subset='link',inplace = True)
     full_feature_df.to_excel(spotify_feature_file)
 
+def troubleshoot(playlist_df):
+    print(playlist_df)
+    
 if __name__ == "__main__":
-    build_feature_frame(playlist_df)
+    troubleshoot(playlist_df)
+    #build_feature_frame(playlist_df)
