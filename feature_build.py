@@ -3,6 +3,12 @@ import spotipy
 import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
+import time
+
+#Save file variables
+playlists_file = 'all_spotify_playlists.xlsx'
+playlist_df = pd.read_excel(playlists_file)
+spotify_feature_file = 'spotify_features.xlsx'
 
 #Save client credentials
 client_id = "c1f74565be774e65aa211462aaf5fed8"
@@ -121,4 +127,26 @@ def excel_list_to_df():
     playlists = df['Link']
     return playlists
 
-print(extract_songs('https://open.spotify.com/playlist/7IKIjt9wZPPQWgvHo1SeFO?si=b2e74ab95f0f45cd'))
+
+def build_feature_frame(playlist_df):
+    playlists = list(playlist_df['Spotify Playlist ID'])
+    feature_dfs = []
+    i = 0 
+    
+    for playlist in playlists:
+        time.sleep(20)
+        if i==10:
+            break
+        try:
+            features = populate_song_info(playlist)
+        except spotipy.SpotifyException:
+            continue
+        feature_dfs.append(features)
+        i+=1
+    #Concatenate dataframes together before export 
+    full_feature_df = pd.concat(feature_dfs,ignore_index=True)
+    full_feature_df.drop_duplicates(subset='link',inplace = True)
+    full_feature_df.to_excel(spotify_feature_file)
+
+if __name__ == "__main__":
+    build_feature_frame(playlist_df)
