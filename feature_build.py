@@ -2,7 +2,6 @@
 
 import spotipy
 import pandas as pd
-import urllib3
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import time
@@ -38,16 +37,29 @@ def extract_songs(playlist):
             continue
     return uris
 
+def get_artist_info(track):
+    '''Helper function for get_track_info function'''
+    artist_info = {}
+    artist_id = track["artists"][0]["id"]
+    artist = spotify.artist(artist_id)
+    artist_pop = artist["popularity"]
+    artist_genres = artist["genres"]
+
+    artist_info['artist_genres'] = artist_genres
+    artist_info['artist_popularity'] = artist_pop
+    return artist_info
+
 def get_track_info(track):
     track = spotify.track(track)
     track_info = {}
     artists= []
+    artist_info = get_artist_info(track)
     track_info['name'] = track['name']
     for artist in track['artists']:
         artists.append(artist['name'])
     track_info['artists'] = artists
     track_info['popularity'] = track['popularity']
-    return track_info
+    return track_info, artist_info
 
 def populate_song_info(playlist):
     '''
@@ -60,7 +72,9 @@ def populate_song_info(playlist):
     song_data = {}
     name_array = []
     artist_array = []
-    popularity_array = []
+    song_pop_array = []
+    artist_pop_array = []
+    genres_array = []
     dance_array = []
     energy_array = []
     key_array = []
@@ -79,15 +93,17 @@ def populate_song_info(playlist):
         
         features = spotify.audio_features(song)[0]
         #Check if features don't exist, skip the song entry
-        if features ==  None:
+        if features == None:
             continue
         
-        #Get song names, artists, popularity
-        track = get_track_info(song)
+        #Get song names, artists, popularity, and genres
+        track, artist = get_track_info(song)
         name_array.append(track['name'])
         artist_array.append(track['artists'])
-        popularity_array.append(track['popularity'])
-
+        song_pop_array.append(track['popularity'])
+        artist_pop_array.append(artist['artist_popularity'])
+        genres_array.append(artist['artist_genres'])
+        
         #Append feature to each corresponding array
         dance_array.append(features['danceability'])
         energy_array.append(features['energy'])
@@ -105,7 +121,9 @@ def populate_song_info(playlist):
     #Put all song data in a library with proper labels
     song_data['track_name'] = name_array
     song_data['artists'] = artist_array
-    song_data['popularity'] = popularity_array
+    song_data['song_popularity'] = song_pop_array
+    song_data['artist_popularity'] = artist_pop_array
+    song_data['genres'] = genres_array
     song_data['danceability'] = dance_array
     song_data['energy'] = energy_array
     song_data['key'] = key_array
@@ -136,7 +154,8 @@ def build_feature_frame(playlist_df):
     i = 0 
     
     for playlist in playlists:
-        time.sleep(10)
+        time.sleep(5)
+        print('playlist started')
         if i==10:
             break
         try:
@@ -144,16 +163,12 @@ def build_feature_frame(playlist_df):
         except spotipy.SpotifyException:
             continue
         feature_dfs.append(features)
-        print('{i}th playlist complete')
+        #f"{i} playlists complete"
         i+=1
     #Concatenate dataframes together before export 
     full_feature_df = pd.concat(feature_dfs,ignore_index=True)
     full_feature_df.drop_duplicates(subset='link',inplace = True)
     full_feature_df.to_excel(spotify_feature_file)
-
-def troubleshoot(playlist_df):
-    print(playlist_df)
     
 if __name__ == "__main__":
-    troubleshoot(playlist_df)
-    #build_feature_frame(playlist_df)
+    build_feature_frame(playlist_df)
