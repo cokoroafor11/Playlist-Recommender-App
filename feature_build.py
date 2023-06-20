@@ -7,7 +7,7 @@ import spotipy.util as util
 import time
 
 #Save file variables
-playlists_file = 'all_spotify_playlists.xlsx'
+playlists_file = '../datasets/all_spotify_playlists.xlsx'
 playlist_df = pd.read_excel(playlists_file)
 spotify_feature_file = 'spotify_features.xlsx'
 
