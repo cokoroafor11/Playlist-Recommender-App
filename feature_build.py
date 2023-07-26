@@ -5,17 +5,29 @@ import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import time
+import pymysql
+from sqlalchemy import create_engine
 
 #Save file variables
-playlists_file = '../datasets/all_spotify_playlists.xlsx'
+playlists_file = 'all_spotify_playlists.xlsx'
 playlist_df = pd.read_excel(playlists_file)
-spotify_feature_file = 'spotify_features.xlsx'
+#spotify_feature_file = 'spotify_features.xlsx'
+
 
 #Save client credentials
 client_id = "c1f74565be774e65aa211462aaf5fed8"
 client_secret = "2edce4052f8f46639c0e112658572d66"
 #Create object
 spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id= client_id,client_secret=client_secret),requests_timeout=100,retries=3)
+
+#Save mysql creds
+#DB Instance Identifier:
+username = 'admin'
+pw = 'NeduMusic2023!!'
+hostname = 'music-recommender-db.cwy9ickxbsdg.us-east-2.rds.amazonaws.com'
+db_name = 'featureDB'
+port = 3306
+
 
 def extract_songs(playlist):
     #Make sure playlist input is string
@@ -150,25 +162,39 @@ def excel_list_to_df():
 
 def build_feature_frame(playlist_df):
     playlists = list(playlist_df['Spotify Playlist ID'])
-    feature_dfs = []
+    #feature_dfs = []
     i = 0 
-    
+
+    #Open connection
+    connection = pymysql.connect(host= hostname, user= username,password= pw)
+    cursor = connection.cursor()
+    #create engine
+    engine = create_engine('mysql+pymysql://' + username + ':' + pw + '@' + hostname + ':' + str(port) + '/' + db_name , echo=False)
+
+    #Iterate through playlists and push these dataframes to sql
     for playlist in playlists:
-        time.sleep(5)
+        time.sleep(10)
         print('playlist started')
-        if i==10:
+        if i==2:
             break
         try:
             features = populate_song_info(playlist)
         except spotipy.SpotifyException:
             continue
-        feature_dfs.append(features)
-        #f"{i} playlists complete"
+    
+        #push df to sql
+        features.to_sql('features', engine, if_exists='append',index = False, chunksize=100000, method='multi')
         i+=1
+
+    #Close connection
+    cursor.close()
+    connection.close()
+        
+
     #Concatenate dataframes together before export 
-    full_feature_df = pd.concat(feature_dfs,ignore_index=True)
-    full_feature_df.drop_duplicates(subset='link',inplace = True)
-    full_feature_df.to_excel(spotify_feature_file)
+    #full_feature_df = pd.concat(feature_dfs,ignore_index=True)
+    #full_feature_df.drop_duplicates(subset='link',inplace = True)
+    #full_feature_df.to_excel(spotify_feature_file)
     
 if __name__ == "__main__":
     build_feature_frame(playlist_df)
