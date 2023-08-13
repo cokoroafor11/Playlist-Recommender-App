@@ -6,11 +6,14 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import time
 import pymysql
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from sqlalchemy import create_engine
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import MinMaxScaler
 
 #Save file variables
-playlists_file = 'all_spotify_playlists.xlsx'
-playlist_df = pd.read_excel(playlists_file)
+playlists_file = './datasets/all_spotify_playlists.xlsx'
+playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
 #spotify_feature_file = 'spotify_features.xlsx'
 
 
@@ -98,7 +101,7 @@ def populate_song_info(playlist):
     live_array = []
     valence_array = []
     tempo_array = []
-    link_array = []
+    song_link_array = []
     
     #Loop to append song info to appropriate array
     for song in songlist:
@@ -128,7 +131,7 @@ def populate_song_info(playlist):
         live_array.append(features['liveness'])
         valence_array.append(features['valence'])
         tempo_array.append(features['tempo'])
-        link_array.append(song)
+        song_link_array.append(song)
         
     #Put all song data in a library with proper labels
     song_data['track_name'] = name_array
@@ -147,9 +150,10 @@ def populate_song_info(playlist):
     song_data['liveness'] = live_array
     song_data['valence'] = valence_array
     song_data['tempo'] = tempo_array
-    song_data['link'] = link_array
+    song_data['song_link'] = song_link_array
     
     song_db = pd.DataFrame(song_data)
+    song_db['playlist_link'] = playlist
     return song_db
 
 def excel_list_to_df():
@@ -159,11 +163,58 @@ def excel_list_to_df():
     playlists = df['Link']
     return playlists
 
+def sent_analysis(song_title):
+  '''
+  The sentiment analysis outputs positive, negative, neutral scores
+  Combines into compound score that is a combo of all the above
+  We will use the compound score, then put it into one of three buckets
+  '''
+  analyzer = SentimentIntensityAnalyzer()
+  analysis = analyzer.polarity_scores(song_title)['compound']
+  if analysis < -0.5:
+    return 'negative'
+  elif analysis > 0.5:
+    return 'positive'
+  else:
+    return 'neutral'
+
+def one_hot(df, column):
+  if type(column) != str: column = str(column)
+  df = pd.get_dummies(df, columns=[column])
+  return df
+
+def feature_engineering(df):
+    df['sentiment'] = df['track_name'].apply(lambda row: sent_analysis(row))
+    
+    #Normalization
+    
+    ##Float columns
+    float_cols = df.select_dtypes(include=['float64'])
+    scaler = MinMaxScaler()
+    float_df = pd.DataFrame(scaler.fit_transform(float_cols), columns = float_cols.columns)
+    
+    #Insert scaled columns into df
+    df= df.assign(**dict(float_df.items()))
+
+    ##Key and Popularity Columns
+    pop_key_cols = df[['song_popularity','artist_popularity','key']]
+    scaler = MinMaxScaler()
+    pop_key_df = pd.DataFrame(scaler.fit_transform(pop_key_cols), columns = pop_key_cols.columns)
+    
+    #Insert scaled columns into df
+    df= df.assign(**dict(pop_key_df.items()))
+
+    #One hot encoding
+    df = one_hot(df, 'sentiment')
+    df['sentiment_negative'] = df['sentiment_negative'].astype('int')
+    df['sentiment_neutral']=df['sentiment_neutral'].astype('int')
+    df['sentiment_positive']=df['sentiment_positive'].astype('int')
+
+    return df
 
 def build_feature_frame(playlist_df):
     playlists = list(playlist_df['Spotify Playlist ID'])
     #feature_dfs = []
-    i = 0 
 
     #Open connection
     connection = pymysql.connect(host= hostname, user= username,password= pw)
@@ -173,18 +224,20 @@ def build_feature_frame(playlist_df):
 
     #Iterate through playlists and push these dataframes to sql
     for playlist in playlists:
-        time.sleep(10)
-        print('playlist started')
-        if i==2:
-            break
+        time.sleep(20)
+        print('playlist {} started'.format(playlist))
         try:
             features = populate_song_info(playlist)
+            features = feature_engineering(features)
+            features['artists'] = features['artists'].astype(str)
+            features['genres'] = features['genres'].astype(str)
+
         except spotipy.SpotifyException:
             continue
     
         #push df to sql
         features.to_sql('features', engine, if_exists='append',index = False, chunksize=100000, method='multi')
-        i+=1
+        
 
     #Close connection
     cursor.close()
