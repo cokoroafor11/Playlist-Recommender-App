@@ -10,26 +10,18 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from sqlalchemy import create_engine
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
-
+from config import *
 #Save file variables
 playlists_file = './datasets/all_spotify_playlists.xlsx'
 playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
 #spotify_feature_file = 'spotify_features.xlsx'
 
 
-#Save client credentials
-client_id = "c1f74565be774e65aa211462aaf5fed8"
-client_secret = "2edce4052f8f46639c0e112658572d66"
+
 #Create object
 spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id= client_id,client_secret=client_secret),requests_timeout=100,retries=3)
 
-#Save mysql creds
-#DB Instance Identifier:
-username = 'admin'
-pw = 'NeduMusic2023!!'
-hostname = 'music-recommender-db.cwy9ickxbsdg.us-east-2.rds.amazonaws.com'
-db_name = 'featureDB'
-port = 3306
+
 
 
 def extract_songs(playlist):
@@ -221,20 +213,19 @@ def build_feature_frame(playlist_df):
     cursor = connection.cursor()
     #create engine
     engine = create_engine('mysql+pymysql://' + username + ':' + pw + '@' + hostname + ':' + str(port) + '/' + db_name , echo=False)
-
+    
     #Iterate through playlists and push these dataframes to sql
     for playlist in playlists:
         time.sleep(20)
         print('playlist {} started'.format(playlist))
+
         try:
             features = populate_song_info(playlist)
-            features = feature_engineering(features)
             features['artists'] = features['artists'].astype(str)
             features['genres'] = features['genres'].astype(str)
 
         except spotipy.SpotifyException:
             continue
-    
         #push df to sql
         features.to_sql('features', engine, if_exists='append',index = False, chunksize=100000, method='multi')
         
@@ -245,9 +236,6 @@ def build_feature_frame(playlist_df):
         
 
     #Concatenate dataframes together before export 
-    #full_feature_df = pd.concat(feature_dfs,ignore_index=True)
-    #full_feature_df.drop_duplicates(subset='link',inplace = True)
-    #full_feature_df.to_excel(spotify_feature_file)
-    
+
 if __name__ == "__main__":
     build_feature_frame(playlist_df)
