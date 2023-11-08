@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Recommender App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="background-pic">
+        <div id="header">
+            <nav class="navbar">
+                <div class="pic">
+                    
+                </div>
+                <div class="nav-menu">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Playlist Info</a></li>
+                        <li><a href="#">Recommendations</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>  
+                </div>
+            </nav>
+            <div class="intro">
+                <h1>Welcome to the Song Recommender App</h1>
+            </div>
+            <div class="form">
+                <form action="/my-handling-form-page" method="post">
+                    <label for="name">Enter Your Spotify Playlist Link:</label>
+                    <input type="text" id="name" name="user_name"/>
+                </form>
+                <div class="dropdown">
+                    <button class="dropbtn">Dropdown</button>
+                    <div class="dropdown-content">
+                      <div id="option">1</div>
+                      <div id="option">5</div>
+                      <div id="option">10</div>
+                      <div id="option">15</div>
+                      <div id="option">20</div>
+                      <div id="option">25</div>
+                      <div id="option">30</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

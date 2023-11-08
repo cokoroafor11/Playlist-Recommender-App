@@ -1,0 +1,128 @@
+/*Styling applied to all */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s;
+    font-family: 'Poppins', 'sans-serif';
+}
+
+body {
+    background-color: black;
+    color: #ababab;
+}
+
+.pic {
+    background-image: url('./spotify_background.jpg');
+    width: auto;
+}
+
+/* Set the background picture */
+.background-pic {
+    background-image: url('./spotify_background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    opacity: 0.6;
+}
+
+/* Override the styles for the children */
+.background-pic div:not(.special) {
+    opacity: 1;
+  }
+  
+  
+  
+  
+  
+
+/* navbar creation */
+.navbar {
+    display: flex;
+    height: 5rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    flex-wrap: wrap;
+    
+}
+
+/*lining up navbar elements*/
+.navbar .nav-menu ul li {
+    display: inline-block;
+    list-style: none;
+    margin: 10px 20px;
+} 
+
+/* remove hyperlink and add transition when hovering */
+.navbar .nav-menu ul li a{
+    text-decoration: none;
+    color: #ababab;
+    font-size: 20px;
+    border-bottom: 2px solid transparent;
+    transition: 0.4s;
+}
+/* navbar transition out when hovering is done*/
+.navbar .nav-menu ul li a:hover{
+    border-bottom: 2px solid green;
+    border-radius: 2px;
+    padding: 10px 10px;
+    transition: 0.4s;
+}
+
+.intro {
+    text-align: center;
+}
+
+.form {
+    text-align: center;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f1f1f1;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content div:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #1bb120;
+}
