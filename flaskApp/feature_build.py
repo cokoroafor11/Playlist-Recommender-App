@@ -10,10 +10,10 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from sqlalchemy import create_engine
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
-from config import *
+from .config import *
 #Save file variables
-playlists_file = './datasets/all_spotify_playlists.xlsx'
-playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
+#playlists_file = './datasets/all_spotify_playlists.xlsx'
+#playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
 #spotify_feature_file = 'spotify_features.xlsx'
 
 
@@ -236,6 +236,7 @@ def build_feature_frame(playlist_df):
         
 
     #Concatenate dataframes together before export 
-
+'''
 if __name__ == "__main__":
     build_feature_frame(playlist_df)
+'''

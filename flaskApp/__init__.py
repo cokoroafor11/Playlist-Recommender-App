@@ -23,9 +23,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/home')
-    def home():
-        return render_template('index.html')
-
     return app
+
+app = create_app(test_config=None)
+from flaskApp import views

@@ -24,14 +24,26 @@ body {
     background-position: center;
     height: 100vh;
     position: relative;
-    opacity: 0.6;
+    /* opacity: 0.6; */
 }
 
-/* Override the styles for the children */
-.background-pic div:not(.special) {
-    opacity: 1;
-  }
-  
+.background-pic::before {
+    content:"";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: -1; /* Move the pseudo-element behind the content */
+}
+
+.background-pic > * {
+    /* Apply opacity to direct children of .background-pic */
+    position: relative;
+    z-index: 1; /* Keep the content above the pseudo-element */
+}
   
   
   

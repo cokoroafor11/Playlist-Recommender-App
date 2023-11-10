@@ -26,23 +26,17 @@
                 <h1>Welcome to the Song Recommender App</h1>
             </div>
             <div class="form">
-                <form action="/my-handling-form-page" method="post">
-                    <label for="name">Enter Your Spotify Playlist Link:</label>
-                    <input type="text" id="name" name="user_name"/>
-                </form>
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown</button>
-                    <div class="dropdown-content">
-                      <div id="option">1</div>
-                      <div id="option">5</div>
-                      <div id="option">10</div>
-                      <div id="option">15</div>
-                      <div id="option">20</div>
-                      <div id="option">25</div>
-                      <div id="option">30</div>
-                    </div>
-                </div>
+                <form id="frm1" action="/action_page.php">
+                    First name: <input type="text" name="fname"><br>
+                    Last name: <input type="text" name="lname"><br><br>
+                    <input type="button" onclick="submit()" value="Submit">
+                  </form>
             </div>
+        </div>
+        <div class="recommendations">
+            {% block recommendations %}
+            {{data}}
+            {% endblock %}
         </div>
     </div>
 
