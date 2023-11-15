@@ -1,4 +1,4 @@
-from .feature_build import populate_song_info, one_hot
+from .feature_build import populate_song_info, one_hot, sent_analysis
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
@@ -17,7 +17,7 @@ def user_playlist_to_dataframe(playlist):
   scaler = MinMaxScaler()
   float_df = pd.DataFrame(scaler.fit_transform(float_cols), columns = float_cols.columns)
   #Insert scaled columns into df
-  user_df= user_df.assign(**dict(float_df.iteritems()))
+  user_df= user_df.assign(**dict(float_df.items()))
 
   ##Key and Popularity Columns
 
@@ -26,7 +26,7 @@ def user_playlist_to_dataframe(playlist):
   scaler = MinMaxScaler()
   pop_key_df = pd.DataFrame(scaler.fit_transform(pop_key_cols), columns = pop_key_cols.columns)
   #Insert scaled columns into df
-  user_df= user_df.assign(**dict(pop_key_df.iteritems()))
+  user_df= user_df.assign(**dict(pop_key_df.items()))
 
   #One hot encoding
   user_df = one_hot(user_df, 'sentiment')

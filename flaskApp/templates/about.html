@@ -23,18 +23,9 @@
                     </div>
                 </nav>
                 <div class="intro">
-                    <h1>Welcome to the Song Recommender App</h1>
+                    <h1>About</h1>
+                    
                 </div>
-                <div class="recs-form">
-                    <form id="recs" action="{{ url_for('recommendations') }}" method="post">
-                        Input Song Link: <input type="text" name="URL"><br>
-                        <input type="submit" value="Get Songs">
-                    </form>
-                </div>
-            </div>
-            <div class="recommendations">
-                {% block recommendations %}
-                {% endblock %}
             </div>
         </div>
         

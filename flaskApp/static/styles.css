@@ -12,14 +12,10 @@ body {
     color: #ababab;
 }
 
-.pic {
-    background-image: url('./spotify_background.jpg');
-    width: auto;
-}
 
 /* Set the background picture */
 .background-pic {
-    background-image: url('./spotify_background.jpg');
+    background-image: url('./constellations.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -46,7 +42,7 @@ body {
 }
   
   
-  
+
   
 
 /* navbar creation */
@@ -85,44 +81,31 @@ body {
 
 .intro {
     text-align: center;
+    padding: 25px;
 }
 
-.form {
+.recs-form {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding-top: 1rem;
 }
 
-/* Dropdown Button */
-.dropbtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-position: relative;
-display: inline-block;
+.recs-form #recs {
+    text-align: center;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    font-size: 20px;
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-display: none;
-position: absolute;
-background-color: #f1f1f1;
-min-width: 160px;
-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-z-index: 1;
+.recs-form input[type="text"],
+.recs-form input[type="submit"] {
+    font-size: 20px; 
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-color: black;
-padding: 12px 16px;
-text-decoration: none;
-display: block;
-}
+
 
 /* Change color of dropdown links on hover */
 .dropdown-content div:hover {
@@ -137,4 +120,14 @@ display: block;
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
     background-color: #1bb120;
+}
+
+.recommendations {
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    margin: 0 auto;
+    padding-top: 1rem;
 }
