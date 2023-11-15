@@ -2,6 +2,7 @@ import pandas as pd
 from .config import *
 import pymysql
 from sqlalchemy import create_engine, text
+from ast import literal_eval
 
 
 from .feature_build import populate_song_info, sent_analysis, one_hot
@@ -58,6 +59,10 @@ def get_db_features():
   query = text('''SELECT * FROM features''')
   features_df = pd.read_sql(query,conn)
 
+  #Literal eval
+  features_df['genres'] = features_df['genres'].apply(lambda row: literal_eval(row))
+  features_df['artists'] = features_df['artists'].apply(lambda row: literal_eval(row))
+
   #Close connection
   cursor.close()
   connection.close()
@@ -65,6 +70,7 @@ def get_db_features():
 
   #Sentiment Analysis
   features_df['sentiment'] = features_df['track_name'].apply(lambda row: sent_analysis(row))
+  
 
   #Normalization
   ##Float columns
@@ -84,6 +90,7 @@ def get_db_features():
 
   #One hot encoding
   features_df = one_hot(features_df, 'sentiment')
+  features_df = features_df.dropna(subset=['genres'])
 
   #Tfidf genre lists
   tfidf = TfidfVectorizer()
