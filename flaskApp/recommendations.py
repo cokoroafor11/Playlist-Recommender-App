@@ -59,13 +59,15 @@ def get_db_features():
   query = text('''SELECT * FROM features''')
   features_df = pd.read_sql(query,conn)
 
-  #Literal eval
-  features_df['genres'] = features_df['genres'].apply(lambda row: literal_eval(row))
-  features_df['artists'] = features_df['artists'].apply(lambda row: literal_eval(row))
 
   #Close connection
   cursor.close()
   connection.close()
+  
+  #Literal eval
+  features_df['genres'] = features_df['genres'].apply(lambda row: literal_eval(row))
+  features_df['artists'] = features_df['artists'].apply(lambda row: literal_eval(row))
+
   features_df.dropna(inplace=True)
 
   #Sentiment Analysis
