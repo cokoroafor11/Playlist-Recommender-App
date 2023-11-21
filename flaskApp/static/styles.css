@@ -73,7 +73,7 @@ body {
 }
 /* navbar transition out when hovering is done*/
 .navbar .nav-menu ul li a:hover{
-    border-bottom: 2px solid green;
+    border-bottom: 2px solid rgb(143, 143, 143);
     border-radius: 2px;
     padding: 10px 10px;
     transition: 0.4s;
@@ -124,10 +124,262 @@ body {
 
 .recommendations {
     color: white;
-    border: 2px solid white;
     display: flex;
     justify-content: center;
     width: 75%;
     margin: 0 auto;
     padding-top: 1rem;
+}
+
+
+/*Table stuff*/
+.dataframe {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: black;
+  }
+  
+.dataframe th,
+.dataframe td {
+border: 1px solid #ddd;
+padding: 8px;
+}
+
+.dataframe th {
+background-color: gray;
+text-align: center;
+}
+
+.dataframe tbody tr:nth-child(even) {
+background-color: gray;
+}
+
+.dataframe tbody tr:hover {
+background-color: #e9e9e9;
+}
+
+
+/*INSTRUCTIONS STUFF*/
+@import url(https://fonts.googleapis.com/css?family=Oswald:300,400,500|Raleway:400,700,400italic,700italic);
+
+*,
+:before,
+:after {
+    box-sizing: border-box;
+    
+}
+
+body {
+    background-color: #1d1f20;
+    color: #e5e5e5;
+    font: 16px/1.25 'Raleway', sans-serif;
+}
+
+#wrapper {
+    padding-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80em;
+}
+
+#container {
+    float: left;
+    padding: 1em;
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+}
+
+ul,
+ol {
+    margin: 1em 0;
+}
+
+ol.process-chart {
+    color: white;
+    counter-reset: item;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0 0 0 1em;
+    padding: 0;
+}
+
+ol.process-chart > li,
+ol.process-chart > li > div {
+    position: relative;
+}
+
+ol.process-chart > li {
+    background: linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 25%);
+    background-color: #fff;
+    counter-increment: item;
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 1em 1em 1em -1em;
+    min-width: 11.25em;
+    padding: 1em 1em 1em 2em;
+}
+
+ol.process-chart > li:before,
+ol.process-chart > li > div:before {
+    color: rgb(17, 17, 252);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+
+/* ol.process-chart > li:before {
+    content: 'Step';
+    display: inline-block;
+    font-weight: 300;
+    left: 2em;
+    letter-spacing: 0.1em;
+    position: absolute;
+    top: 1em;
+    transform: rotate(90deg);
+    transform-origin: 25% 50%;
+} */
+
+ol.process-chart > li:after {
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid #fff;
+    border-right: 0 solid transparent;
+    border-top: 1em solid transparent;
+    content: '';
+    height: 100%;
+    position: absolute;
+    right: -1em;
+    top: 0;
+    width: 0;
+    z-index: 1;
+}
+
+ol.process-chart > li > div {
+    padding: 0 0 0 1em;
+}
+
+ol.process-chart > li > div:before {
+    content: counter(item, decimal-leading-zero);
+    font-size: 3em;
+    font-weight: 500;
+    line-height: 1;
+}
+
+/*** PRIMARY ***/
+ol.process-chart > li:nth-of-type(6n+1) {
+    background-color: rgb(85, 85, 85);
+}
+
+ol.process-chart > li:nth-of-type(6n+1):after {
+    border-left-color: rgb(85, 85, 85);
+}
+
+/*** SECONDARY ***/
+ol.process-chart > li:nth-of-type(6n+2) {
+    background-color: black;
+}
+
+ol.process-chart > li:nth-of-type(6n+2):after {
+    border-left-color: black;
+}
+
+/*** TERTIARY ***/
+ol.process-chart > li:nth-of-type(6n+3) {
+    background-color: rgb(85, 85, 85);
+}
+
+ol.process-chart > li:nth-of-type(6n+3):after {
+    border-left-color: rgb(85, 85, 85);
+}
+
+/*** QUATERNARY ***/
+ol.process-chart > li:nth-of-type(6n+4) {
+    background-color: black;
+}
+
+ol.process-chart > li:nth-of-type(6n+4):after {
+    border-left-color: black;
+}
+
+/*** QUINARY ***/
+ol.process-chart > li:nth-of-type(6n+5) {
+    background-color: #fddc32;
+}
+
+ol.process-chart > li:nth-of-type(6n+5):after {
+    border-left-color: #fddc32;
+}
+
+/*** MEDIA QUERIES ***/
+@media only screen and ( max-width: 40em ) {
+
+    ol.process-chart {
+        margin: 1em 0 0 0;
+        padding: 1em 0 0 0;
+    }
+
+    ol.process-chart > li {
+        background: linear-gradient(rgba(0,0,0,0.25) 0%, transparent 25%);
+        flex-basis: inherit;
+        margin: -1em 0 1em 0;
+        min-width: inherit;
+        padding: 1em 1em 0 1em;
+    }
+
+    ol.process-chart > li:before {
+        left: 1em;
+        top: 2em;
+    }
+
+    ol.process-chart > li:after {
+        border-bottom: 0 solid transparent;
+        border-left: 1em solid transparent!important;
+        border-right: 1em solid transparent;
+        border-top: 1em solid #fff;
+        bottom: -1em;
+        height: 0;
+        left: 0;
+        right: inherit;
+        top: inherit;
+        width: 100%;
+    }
+
+    ol.process-chart > li > div {
+        padding: 1em 1em 0 1em;
+    }
+
+    /*** PRIMARY ***/
+    ol.process-chart > li:nth-of-type(6n+1):after {
+        border-top-color: #a2ed56;
+    }
+
+    /*** SECONDARY ***/
+    ol.process-chart > li:nth-of-type(6n+2):after {
+        border-top-color: #83e4e2;
+    }
+
+    /*** TERTIARY ***/
+    ol.process-chart > li:nth-of-type(6n+3):after {
+        border-top-color: #fd6470;
+    }
+
+    /*** QUATERNARY ***/
+    ol.process-chart > li:nth-of-type(6n+4):after {
+        border-top-color: #fca858;
+    }
+
+    /*** QUINARY ***/
+    ol.process-chart > li:nth-of-type(6n+5):after {
+        border-top-color: #fddc32;
+    }
+
 }

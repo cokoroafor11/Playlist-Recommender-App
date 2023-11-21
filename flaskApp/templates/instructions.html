@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Recommender App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="background-pic">
+            <div id="header">
+                <nav class="navbar">
+                    <div class="pic">
+                        
+                    </div>
+                    <div class="nav-menu">
+                        <ul>
+                            <li><a href="{{ url_for('home') }}">Home</a></li>
+                            <li><a href="{{ url_for('instructions') }}">Instructions</a></li>
+                            <li><a href="{{ url_for('about') }}">About</a></li>
+                        </ul>  
+                    </div>
+                </nav>
+            </div>
+            <div id="wrapper">
+                <div id="container">
+            
+                    <h1>Instructions</h1>
+            
+                    <ol class="process-chart">
+                        <li>
+                            <div>
+                                <h2>Go to Spotify</h2>
+                                <ul>
+                                    <li>Log in or create an account</li>
+                                    <li>Find or create a playlist of songs you enjoy</li>
+                                    <li>Copy the playlist link</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h2>Input Your Playlist</h2>
+                                <p>Once you run it, leave a few mins for your results to be generated</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h2>Enjoy your results!</h2>
+                                <p>You now have new songs to listen to! Go find something you love!</p>
+                            </div>
+                        </li>
+                    </ol>
+            
+                </div>
+            </div>
+    </div>
+</body>
+

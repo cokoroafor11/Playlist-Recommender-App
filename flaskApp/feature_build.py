@@ -13,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 from .config import *
 #Save file variables
 #playlists_file = './datasets/all_spotify_playlists.xlsx'
-playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
+#playlist_df = pd.read_excel("all_spotify_playlists.xlsx")
 #spotify_feature_file = 'spotify_features.xlsx'
 
 

@@ -8,37 +8,30 @@
 </head>
 <body>
     <div class="background-pic">
-            <div id="header">
-                <nav class="navbar">
-                    <div class="pic">
-                        
-                    </div>
-                    <div class="nav-menu">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Instructions</a></li>
-                            <li><a href="#">Recommendations</a></li>
-                            <li><a href="#">About</a></li>
-                        </ul>  
-                    </div>
-                </nav>
-                <div class="intro">
-                    <h1>Welcome to the Song Recommender App</h1>
+        <div id="header">
+            <nav class="navbar">
+                <div class="nav-menu">
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('instructions') }}">Instructions</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>  
                 </div>
-                <div class="recs-form">
-                    <form id="recs" action="{{ url_for('recommendations') }}" method="post">
-                        Input Song Link: <input type="text" name="URL"><br>
-                        <input type="submit" value="Get Songs">
-                    </form>
-                </div>
+            </nav>
+            <div class="intro">
+                <h1>Welcome to the Song Recommender App</h1>
             </div>
-            <div class="recommendations">
-                {% block recommendations %}
-                {% endblock %}
+            <div class="recs-form">
+                <form id="recs" action="{{ url_for('recommendations') }}" method="post">
+                    Input Song Link: <input type="text" name="URL"><br>
+                    <input type="submit" value="Get Songs">
+                </form>
             </div>
         </div>
-        
+        <div class="recommendations">
+            {% block recommendations %}
+            {% endblock %}
+        </div>
     </div>
-
 </body>
 </html>

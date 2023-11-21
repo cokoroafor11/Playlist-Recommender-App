@@ -123,3 +123,4 @@ def generate_recommendations(user_playlist, no_playlist_df,num_recommendations):
   no_playlist_df.reset_index()
   #return no_playlist_df.drop(columns = ['track_name','artists','link']).values,user_playlist_vector
   return no_playlist_df.head(num_recommendations)[['track_name','artists','song_link','similarity']]
+
