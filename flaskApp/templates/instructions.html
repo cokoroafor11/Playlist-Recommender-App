@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Song Recommender App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="background-pic">
             <div id="header">
                 <nav class="navbar">
-                    <div class="pic">
-                        
-                    </div>
+                    <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer">
+                        <div class="pic">
+                            <i class="fa fa-spotify"></i>
+                        </div>
+                    </a>
                     <div class="nav-menu">
                         <ul>
                             <li><a href="{{ url_for('home') }}">Home</a></li>

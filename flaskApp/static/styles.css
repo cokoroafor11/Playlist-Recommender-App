@@ -12,6 +12,13 @@ body {
     color: #ababab;
 }
 
+.pic {
+    padding-left: 1rem;
+}
+
+.fa.fa-spotify {
+    font-size: 32px;
+}
 
 /* Set the background picture */
 .background-pic {

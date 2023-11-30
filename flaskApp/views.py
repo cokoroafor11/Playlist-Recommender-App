@@ -18,7 +18,7 @@ def recommendations():
     db_features = get_db_features()
     #songs = generate_recommendations(user_features,db_features,20)
     songs =db_features.head(15) 
-    songs.rename(columns = {'track_name': 'Track Name', 'artists': 'Artists', 'song_link': 'Song Link'})
+    songs.rename(columns = {'track_name': 'Track Name', 'artists': 'Artists', 'song_link': 'Song Link'},inplace=True)
     data = songs[['track_name','artists','song_link']].to_html(render_links=True, escape=False)
     
     return render_template('recommendations.html', data=data)
