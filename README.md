@@ -46,7 +46,7 @@ client_secret = #client secret pulled from the app you created
 The webpage isn't hosted anymore because I ran out of AWS Free Tier use for the year. I plan to re-host next year. However, you can still use it locally. To do so, do the following:
 1. Run ```python flask --app flaskApp run --debug``` in your terminal
 2. Once this is run, the home page is located at http://127.0.0.1:5000/home. From here, you should be seeing this.
-![Song Recommender Screenshot](/photos/"song recommender pic.PNG"?raw=true "Song Recommender Screenshot")
+![Song Recommender Screenshot](/photos/"song-recommender-pic.PNG"?raw=true "Song Recommender Screenshot")
 
 
 
